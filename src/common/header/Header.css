@@ -1,0 +1,15 @@
+.header{
+    background-color: purple;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+.logo{
+    background-color: #ff7f7f;
+    height: 35px;
+  }
+.title{
+    color: white;
+    justify-content: left;
+}
