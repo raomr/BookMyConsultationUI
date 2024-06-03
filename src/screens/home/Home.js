@@ -1,15 +1,29 @@
-import React from 'react'
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+import Tab from '@mui/material/Tab';
+import React from 'react';
+import DoctorList from '../doctorList/DoctorList';
 
+export default function Home() {
+  const [value, setValue] = useState('1');
 
-function Home() {
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <>
-   <div>
-    Home page
-   </div>
-    </>
-    
-  )
+    <Box sx={{ width: '100%', typography: 'body1' }}>
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleChange}>
+            <Tab label="DOCTORS" value="1" />
+            <Tab label="APPOINTMENT" value="2" />
+          </TabList>
+        </Box>
+        <TabPanel value="1"><DoctorList/></TabPanel>
+        <TabPanel value="2">Item Two</TabPanel>
+      </TabContext>
+    </Box>
+  );
 }
-
-export default Home

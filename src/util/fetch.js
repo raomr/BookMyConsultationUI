@@ -30,3 +30,28 @@ export const registerApiCall = async (email, password, firstName, lastName, mobi
         throw new Error('Registration failed');
     }
 }
+
+export const fetchDoctors = async (speciality) => {
+    try {
+        const params = {};
+        if (speciality) {
+            params.speciality = speciality;
+        }
+        const response = await axios.get('http://localhost:8080/doctors', { params });
+        console.log("Doctor list call done");
+        return response;
+    } catch (error) {
+        console.error('Error fetching doctors:', error);
+        throw new Error('Error fetching doctors');
+    }
+};
+
+export const fetchSpecialities = async () => {
+    try {
+        const response = await axios.get('http://localhost:8080/doctors/speciality');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching specialities:', error);
+        throw new Error('Error fetching specialities');
+    }
+};
