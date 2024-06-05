@@ -91,7 +91,7 @@ export const fetchDoctorTimeslots = async (doctorId, date) => {
 
 export const fetchUserAppointments = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/users/${localStorage.getItem('userEmail')}/appointments`, {}, {
+        const response = await axios.get(`http://localhost:8080/users/${localStorage.getItem('userEmail')}/appointments`,{
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }

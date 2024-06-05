@@ -3,8 +3,7 @@ import Modal from 'react-modal';
 import { Card, CardContent, Button, Typography, FormControl, TextField, Select, MenuItem, InputLabel, Box } from '@mui/material';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { bookAppointment, fetchDoctorTimeslots } from '../../util/fetch';
-
+import { bookAppointment, fetchDoctorTimeslots, fetchUserAppointments, formatDate } from '../../util/fetch';
 const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [timeSlot, setTimeSlot] = useState('');
@@ -40,11 +39,34 @@ const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
             setTimeSlotError(true);
             return;
         }
+        //check if appointment already exists
 
-        // Handle form submission logic here
-        const appointmentBookedId = await bookAppointment(doctor,timeSlot,selectedDate,symptoms,medicalHistory);
-        window.alert("Appointment is successfully booked!! Appointment Id: " + appointmentBookedId); 
-        onRequestClose(); // Close the modal after submission
+        const existingAppointments = await fetchUserAppointments(localStorage.getItem('userEmail'));
+
+        const formattedSelectedDate = formatDate(selectedDate);
+
+        const matchingAppointments = existingAppointments.filter(
+          (appointment) => {
+            const formattedAppointmentDate = formatDate(new Date(appointment.appointmentDate));
+            console.log("Formatted Selected Date:", formattedSelectedDate);
+            console.log("Formatted Appointment Date:", formattedAppointmentDate);
+            return (
+              formattedSelectedDate === formattedAppointmentDate &&
+              appointment.timeSlot === timeSlot
+            );
+          }
+        );
+
+        if (matchingAppointments.length > 0) {
+            window.alert("For the chosen date+timeslot, you alrady have an appointment. Please use another timeslot/date");
+        }
+
+        else {
+            // Handle form submission logic here
+            const appointmentBookedId = await bookAppointment(doctor, timeSlot, selectedDate, symptoms, medicalHistory);
+            window.alert("Appointment is successfully booked!! Appointment Id: " + appointmentBookedId);
+            onRequestClose(); // Close the modal after submission
+        }
     };
 
     return (
