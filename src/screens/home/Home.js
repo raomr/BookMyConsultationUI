@@ -4,6 +4,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import Tab from '@mui/material/Tab';
 import React from 'react';
 import DoctorList from '../doctorList/DoctorList';
+import UserAppointments from '../appointment/Appointment';
 
 export default function Home() {
   const [value, setValue] = useState('1');
@@ -22,7 +23,7 @@ export default function Home() {
           </TabList>
         </Box>
         <TabPanel value="1"><DoctorList/></TabPanel>
-        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? 'Redender Appointments':'Log In to See Appointments'
+        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? <UserAppointments/>:'Log In to See Appointments'
 }</TabPanel>
       </TabContext>
     </Box>

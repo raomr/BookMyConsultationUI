@@ -139,3 +139,22 @@ export const fetchDoctorDetails = async (doctorId) => {
         throw new Error('Error fetching doctor details');
     }
 }
+
+export const postRating = async(appointment,rating,comments) => {
+    try {
+        await axios.post("http://localhost:8080/ratings", {
+            "appointmentId":appointment.appointmentId,
+            "doctorId":appointment.doctorId,
+            "rating":rating,
+            "comments":comments
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        console.log("Rating saved");
+    } catch (error) {
+        throw new Error('Error while submitting ratings');
+    }
+
+}
