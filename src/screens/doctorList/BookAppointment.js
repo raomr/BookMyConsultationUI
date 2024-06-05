@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Card, CardContent, Button, Typography, FormControl, TextField, Select, MenuItem, InputLabel, Box } from '@mui/material';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { fetchDoctorTimeslots } from '../../util/fetch';
+import { bookAppointment, fetchDoctorTimeslots } from '../../util/fetch';
 
 const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -35,21 +35,15 @@ const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
         setTimeSlotError(false);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!timeSlot) {
             setTimeSlotError(true);
             return;
         }
 
         // Handle form submission logic here
-        console.log({
-            doctorName: `${doctor.firstName} ${doctor.lastName}`,
-            selectedDate,
-            timeSlot,
-            medicalHistory,
-            symptoms
-        });
-
+        const appointmentBookedId = await bookAppointment(doctor,timeSlot,selectedDate,symptoms,medicalHistory);
+        window.alert("Appointment is successfully booked!! Appointment Id: " + appointmentBookedId); 
         onRequestClose(); // Close the modal after submission
     };
 

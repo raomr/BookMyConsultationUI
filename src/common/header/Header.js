@@ -37,6 +37,7 @@ const Header = () => {
             });
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
             console.log('Logout success:', localStorage.getItem('token'));
         } catch (error) {
             console.error('Logout:', error);

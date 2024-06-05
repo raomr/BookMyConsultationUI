@@ -9,6 +9,7 @@ export const loginApiCall = async (email, password) => {
             }
         });
         localStorage.setItem('token', response.data.accessToken);
+        localStorage.setItem('userEmail',email);
         console.log('Login successful:', localStorage.getItem('token'));
         localStorage.setItem('isLoggedIn', true);
     } catch (error) {
@@ -56,14 +57,20 @@ export const fetchSpecialities = async () => {
     }
 };
 
+
+export const formatDate = (date) => {
+    return (date.toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }))
+}
+
+
 export const fetchDoctorTimeslots = async (doctorId, date) => {
     try {
         // Format the date to YYYY-MM-DD before sending it in the request
-        const formattedDate = date.toLocaleDateString('en-CA', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        });
+        const formattedDate = formatDate(date);
 
         console.log("formatted date inside fetchtimeslot " + formattedDate);
         const response = await axios.get(`http://localhost:8080/doctors/${doctorId}/timeSlots`, {
@@ -82,9 +89,9 @@ export const fetchDoctorTimeslots = async (doctorId, date) => {
     }
 }
 
-export const fetchUserAppointments = async (emailId) => {
+export const fetchUserAppointments = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/users/${emailId}/appointments`, {}, {
+        const response = await axios.get(`http://localhost:8080/users/${localStorage.getItem('userEmail')}/appointments`, {}, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -96,6 +103,31 @@ export const fetchUserAppointments = async (emailId) => {
         throw new Error('Error fetching user appointment');
     }
 }
+
+export const bookAppointment = async (doctor,timeSlot,appointmentDate,symptoms,priorMedicalHistory) => {
+    try {
+        const formattedDate = formatDate(appointmentDate);
+        const response = await axios.post("http://localhost:8080/appointments", {
+            "doctorId": doctor.id,
+            "doctorName":  `${doctor.firstName} ${doctor.lastName}`,
+            "userId": localStorage.getItem('userEmail'),
+            "userEmailId": localStorage.getItem('userEmail'),
+            "timeSlot": timeSlot,
+            "appointmentDate": formattedDate,
+            "symptoms": symptoms,
+            "priorMedicalHistory": priorMedicalHistory
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        console.log("Appointment booked response " + response.data.appointmentId);
+        return response.data.appointmentId;
+    } catch (error) {
+        throw new Error('Appointment booking failed');
+    }
+}
+
 
 export const fetchDoctorDetails = async (doctorId) => {
     try {
