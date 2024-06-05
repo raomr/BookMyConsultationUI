@@ -7,7 +7,7 @@ const Login = ({ onLoginSuccess }) => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [emailError, setEmailError] = useState(false);
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         setErrorMessage(''); // Clear any previous error message

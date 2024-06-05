@@ -55,3 +55,55 @@ export const fetchSpecialities = async () => {
         throw new Error('Error fetching specialities');
     }
 };
+
+export const fetchDoctorTimeslots = async (doctorId, date) => {
+    try {
+        // Format the date to YYYY-MM-DD before sending it in the request
+        const formattedDate = date.toLocaleDateString('en-CA', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+
+        console.log("formatted date inside fetchtimeslot " + formattedDate);
+        const response = await axios.get(`http://localhost:8080/doctors/${doctorId}/timeSlots`, {
+            params: {
+                'date': formattedDate
+            },
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        console.log('fetchTimeslot success');
+        return response.data.timeSlot;
+    } catch (error) {
+        console.error('Error fetching timeslot:', error);
+        throw new Error('Error fetching timeslot for the given doctor');
+    }
+}
+
+export const fetchUserAppointments = async (emailId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/users/${emailId}/appointments`, {}, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        console.log('fetch User appointment success');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user appointment:', error);
+        throw new Error('Error fetching user appointment');
+    }
+}
+
+export const fetchDoctorDetails = async (doctorId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/doctors/${doctorId}`);
+        console.log('doctor details: ' + response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching doctor details:', error);
+        throw new Error('Error fetching doctor details');
+    }
+}

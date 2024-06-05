@@ -22,7 +22,8 @@ export default function Home() {
           </TabList>
         </Box>
         <TabPanel value="1"><DoctorList/></TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? 'Redender Appointments':'Log In to See Appointments'
+}</TabPanel>
       </TabContext>
     </Box>
   );

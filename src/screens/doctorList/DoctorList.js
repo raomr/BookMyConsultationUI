@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardActions, Button, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { fetchDoctors, fetchSpecialities } from '../../util/fetch';
+import BookAppointment from './BookAppointment';
+import DoctorDetails from './DoctorDetails';
 
 const DoctorList = () => {
   const [doctors, setDoctors] = useState([]);
   const [specialities, setSpecialities] = useState([]);
   const [speciality, setSpeciality] = useState('');
   const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewDoctorModalOpen, setIsViewDoctorModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchAllDoctors() {
@@ -32,6 +37,8 @@ const DoctorList = () => {
     fetchAllSpecialities();
   }, []);
 
+
+
   const handleSpecialityChange = (event) => {
     const selectedSpeciality = event.target.value;
     setSpeciality(selectedSpeciality);
@@ -40,6 +47,31 @@ const DoctorList = () => {
     } else {
       setFilteredDoctors(doctors);
     }
+  };
+
+  const handleBookAppointment = (doctor) => {
+    if (!(localStorage.getItem('isLoggedIn'))) { window.alert("Please Login to book an appointment!"); }
+    else {
+      setSelectedDoctor(doctor);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleViewDoctorDetails = (doctor) => {
+    setSelectedDoctor(doctor);
+    setIsViewDoctorModalOpen(true);
+
+
+
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedDoctor(null);
+  };
+  const closeViewDoctorModal = () => {
+    setIsViewDoctorModalOpen(false);
+    setSelectedDoctor(null);
   };
 
   return (
@@ -76,11 +108,26 @@ const DoctorList = () => {
             </div>
           </CardContent>
           <CardActions>
-            <Button size="small">View Details</Button>
-            <Button size="small">Book Appointment</Button>
+            <Button variant="contained" color="primary" size="small" onClick={() => handleViewDoctorDetails(doctor)}>View Details</Button>
+            <Button variant="contained" color="success" size="small" onClick={() => handleBookAppointment(doctor)}>Book Appointment</Button>
+
           </CardActions>
         </Card>
       ))}
+      {selectedDoctor && (
+        <BookAppointment
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          doctor={selectedDoctor}
+        />
+      )}
+      {selectedDoctor && (
+        <DoctorDetails
+          isDoctorModalOpen={isViewDoctorModalOpen}
+          onRequestClose={closeViewDoctorModal}
+          doctor={selectedDoctor}
+        />
+      )}
     </div>
   );
 };
