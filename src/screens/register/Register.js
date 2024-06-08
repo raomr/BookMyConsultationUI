@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormControl, InputLabel, Input, Button } from '@material-ui/core';
-import { loginApiCall,registerApiCall } from '../../util/fetch';
+import { loginApiCall, registerApiCall } from '../../util/fetch';
 const Register = ({ onRegisterSuccess }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -9,6 +9,7 @@ const Register = ({ onRegisterSuccess }) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [emailError, setEmailError] = useState(false);
+  const [mobileError, setmobileError] = useState(false);
 
 
 
@@ -16,10 +17,6 @@ const Register = ({ onRegisterSuccess }) => {
     event.preventDefault();
     setErrorMessage(''); // Clear any previous error message
 
-    if (!email || !password || !firstName || !lastName || !mobile) {
-      setErrorMessage('Please fill out all required fields');
-      return;
-    }
 
     const validEmail = /\S+@\S+\.\S+/.test(email);
     if (!validEmail) {
@@ -27,8 +24,14 @@ const Register = ({ onRegisterSuccess }) => {
       return;
     }
 
+    const validMobile = /^\d{10}$/.test(mobile); // Check for 10 digits
+    if (!validMobile) {
+      setmobileError(true);
+      return;
+    }
+
     try {
-      await registerApiCall(email,password,firstName,lastName,mobile);
+      await registerApiCall(email, password, firstName, lastName, mobile);
       await loginApiCall(email, password);
       onRegisterSuccess();
     } catch (error) {
@@ -47,7 +50,7 @@ const Register = ({ onRegisterSuccess }) => {
           autoFocus
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          
+
         />
       </FormControl>
       <FormControl margin="normal" required>
@@ -58,10 +61,10 @@ const Register = ({ onRegisterSuccess }) => {
           autoFocus
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          
+
         />
       </FormControl>
-      <FormControl margin="normal" required >
+      <FormControl margin="normal" required error={mobileError} >
         <InputLabel htmlFor="mobile">Mobile</InputLabel>
         <Input
           id="mobile"
@@ -69,8 +72,8 @@ const Register = ({ onRegisterSuccess }) => {
           autoFocus
           value={mobile}
           onChange={(e) => setMobile(e.target.value)}
-          
         />
+        {mobileError && <span style={{ color: 'red' }}>Invalid mobile number. Please enter 10 digits.</span>}
       </FormControl>
       <FormControl margin="normal" required error={emailError}>
         <InputLabel htmlFor="email">Email Address</InputLabel>

@@ -71,10 +71,13 @@ const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
 
     return (
         <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+            <div style={{  display: 'flex',  alignItems: 'center', justifyContent: 'center', padding:20, backgroundColor: 'white', borderRadius: 8, width: 700, marginLeft:300 }}>
             <Card>
                 <CardContent>
-                    <Typography variant="h5">Book an Appointment</Typography>
-                    <Box component="form" sx={{ mt: 2 }}>
+                <Typography variant="h4" component="h2" color="white" alignContent="center" justifyItems="center" style={{background: "purple", height: 70,padding: 11}} >
+                        Book Appointment
+                    </Typography>
+                    
                         <FormControl fullWidth margin="normal">
                             <TextField
                                 label="Doctor's Name"
@@ -85,7 +88,7 @@ const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
                                 variant="outlined"
                             />
                         </FormControl>
-                        <FormControl fullWidth margin="normal">
+                        <FormControl fullWidth margin="normal" >
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
                                     margin="normal"
@@ -123,9 +126,6 @@ const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
                                 label="Medical History"
                                 value={medicalHistory}
                                 onChange={(e) => setMedicalHistory(e.target.value)}
-                                variant="outlined"
-                                multiline
-                                rows={4}
                             />
                         </FormControl>
                         <FormControl fullWidth margin="normal">
@@ -133,19 +133,14 @@ const BookAppointment = ({ isOpen, onRequestClose, doctor }) => {
                                 label="Symptoms"
                                 value={symptoms}
                                 onChange={(e) => setSymptoms(e.target.value)}
-                                variant="outlined"
-                                multiline
-                                rows={4}
                             />
                         </FormControl>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                            <Button variant="contained" color="primary" onClick={handleSubmit}>
+                         <Button  style={{ display: 'flex', justifyContent: 'flex', mt: 2 }} variant="contained" color="primary" onClick={handleSubmit}>
                                 Book Appointment
                             </Button>
-                        </Box>
-                    </Box>
                 </CardContent>
             </Card>
+            </div>
         </Modal>
     );
 };

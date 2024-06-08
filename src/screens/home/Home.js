@@ -17,13 +17,13 @@ export default function Home() {
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange}>
-            <Tab label="DOCTORS" value="1" />
+          <TabList onChange={handleChange} centered >
+            <Tab label="DOCTORS" value="1"/>
             <Tab label="APPOINTMENT" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1"><DoctorList/></TabPanel>
-        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? <UserAppointments/>:'Log In to See Appointments'
+        <TabPanel value="1"  ><DoctorList/></TabPanel>
+        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? <UserAppointments/>:<div style={{ marginBottom: 20, width: 500, marginLeft: 600}}>Log In to See Appointments</div>
 }</TabPanel>
       </TabContext>
     </Box>

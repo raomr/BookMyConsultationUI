@@ -11,6 +11,9 @@ import logo from '../../assets/logo.jpeg';
 import Register from '../../screens/register/Register';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Typography } from '@mui/material';
+import { logoutApiCall } from '../../util/fetch';
+
 const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState(0);
@@ -20,28 +23,13 @@ const Header = () => {
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
 
     const handleChangeTab = (event, newValue) => {
         setActiveTab(newValue);
     };
 
-    const handleLogout =  () => {
-        try {
-            const response =  axios.post("http://localhost:8080/auth/logout", {}, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                }
-            });
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('token');
-            localStorage.removeItem('userEmail');
-            console.log('Logout success:', localStorage.getItem('token'));
-        } catch (error) {
-            console.error('Logout:', error);
-        }
+    const handleLogout = async () => {
+        await logoutApiCall();
         navigate('/');
     };
 
@@ -54,36 +42,56 @@ const Header = () => {
         navigate('/');
     };
 
+    const handleAuthModalClose = () =>{
+        setIsModalOpen(false);
+        navigate('/');
+    }
+
     return (
         <>
             <div className="header">
-                <img className="logo" src={logo} />
-                <div className="title">Doctor Finder</div>
+
+                <div className="title" style={{ display: "flex", alignItems: "flex-start" }}>
+                    <img className="logo" src={logo} />
+                    <h2 className="doctor-finder">Doctor Finder</h2>
+                </div>
+
+
+
                 {localStorage.getItem('isLoggedIn') ? (
-                    <Button variant="contained" color="secondary" onClick={handleLogout}>
+                    <Button variant="contained" color="secondary" style={{ marginRight: 10 }} onClick={handleLogout}>
                         Logout
                     </Button>
                 ) : (
-                    <Button variant="contained" color="primary" onClick={handleOpenModal}>
+                    <Button variant="contained" color="primary" style={{ marginRight: 10 }} onClick={handleOpenModal}>
                         Login
                     </Button>
                 )}
             </div>
-            <Modal isOpen={isModalOpen} contentLabel="Login/Register">
-                <Card>
-                    <CardContent>
-                        <Tabs value={activeTab} onChange={handleChangeTab}>
-                            <Tab label="LOGIN" />
-                            <Tab label="REGISTER" />
-                        </Tabs>
-                        {activeTab === 0 && (
-                            <Login onLoginSuccess={handleLoginSuccess} />
-                        )}
-                        {activeTab === 1 && (
-                            <Register onRegisterSuccess={handleRegisterSuccess} />
-                        )}
-                    </CardContent>
-                </Card>
+            <Modal isOpen={isModalOpen} contentLabel="Login/Register" onRequestClose={handleAuthModalClose} >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', marginTop: 100}}>
+                    <Card>
+                        <Typography variant="h4" component="h2" style={{ background: "purple", height: 70, alignContent:"center", color:"white", justifyContent: "center" }} >
+                            Authentication
+                        </Typography>
+                        <CardContent>
+                            <Tabs value={activeTab} onChange={handleChangeTab}>
+                                <Tab label="LOGIN" />
+                                <Tab label="REGISTER" />
+                            </Tabs>
+                            {activeTab === 0 && (
+                                <Login onLoginSuccess={handleLoginSuccess} />
+                            )}
+                            {activeTab === 1 && (
+                                <Register onRegisterSuccess={handleRegisterSuccess} />
+                            )}
+                        </CardContent>
+                    </Card>
+
+                </div>
+
+
+
             </Modal>
         </>
     );

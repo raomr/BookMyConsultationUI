@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardActions, Button, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Card, CardContent, CardActions, Button, Typography, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { fetchDoctors, fetchSpecialities } from '../../util/fetch';
 import BookAppointment from './BookAppointment';
 import DoctorDetails from './DoctorDetails';
+import Rating from '@mui/material/Rating';
+import Select from '@mui/material/Select';
 
 const DoctorList = () => {
   const [doctors, setDoctors] = useState([]);
@@ -75,9 +77,9 @@ const DoctorList = () => {
   };
 
   return (
-    <div>
-      <FormControl variant="outlined" style={{ minWidth: 200, marginBottom: 20 }}>
-        <InputLabel id="speciality-label">Speciality</InputLabel>
+    <div style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <FormControl variant="outlined" style={{ minWidth: 200, marginBottom: 20, marginLeft: 650, backgroundColor: "ButtonShadow" }}>
+        <InputLabel id="select">Select Speciality</InputLabel>
         <Select
           labelId="speciality-label"
           id="speciality-select"
@@ -94,23 +96,21 @@ const DoctorList = () => {
         </Select>
       </FormControl>
       {filteredDoctors.map((doctor) => (
-        <Card key={doctor.id} style={{ marginBottom: 20 }}>
+        <Card key={doctor.id} style={{ width: "40%", marginBottom: 20, marginLeft: 500 }}>
           <CardContent>
-            <Typography variant="h5" component="div">
-              {doctor.firstName} {doctor.lastName}
+            <Typography variant="h5" component="div" marginBottom="20px">
+              Doctor Name: {doctor.firstName} {doctor.lastName}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {doctor.speciality}
+            <Typography variant="body1" >
+              Speciality: {doctor.speciality}
             </Typography>
-            <div className="rating">
-              <span>&#9733;</span>
-              {doctor.rating}
+            <div className="rating" style={{ marginTop: 10, justifyContent: "center", alignItems: "center" }}>
+              Rating:<Rating name="read-only" precision={0.5} value={doctor.rating} readOnly />
             </div>
           </CardContent>
           <CardActions>
-            <Button variant="contained" color="primary" size="small" onClick={() => handleViewDoctorDetails(doctor)}>View Details</Button>
-            <Button variant="contained" color="success" size="small" onClick={() => handleBookAppointment(doctor)}>Book Appointment</Button>
-
+            <Button variant="contained" color="primary" size="small" style={{ width: "40%", margin: "10px" }} onClick={() => handleViewDoctorDetails(doctor)}>View Details</Button>
+            <Button variant="contained" color="success" size="small" style={{ width: "40%", margin: "10px" }} onClick={() => handleBookAppointment(doctor)}>Book Appointment</Button>
           </CardActions>
         </Card>
       ))}

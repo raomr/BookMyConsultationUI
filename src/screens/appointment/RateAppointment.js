@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, FormControl, TextField, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { postRating } from '../../util/fetch';
+import Paper from '@mui/material/Paper';
 
 function RateAppointment({ isOpen, onRequestClose, appointment }) {
     const [rating, setRating] = useState(0);
@@ -22,41 +23,39 @@ function RateAppointment({ isOpen, onRequestClose, appointment }) {
 
     return (
         <Modal open={isOpen} onClose={onRequestClose} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ padding: 20, backgroundColor: 'white', borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.1)', width: '400px' }}>
-                <Typography variant="h5" component="h2" gutterBottom>
-                    Rate an Appointment
-                </Typography>
-                <FormControl fullWidth margin="normal">
-                    <Typography variant="body1" component="p">
-                        Doctor's Name: {appointment.doctorName}
-                    </Typography>
-                </FormControl>
-                <FormControl fullWidth margin="normal">
-                    <Rating
-                        name="appointment-rating"
-                        value={rating}
-                        onChange={(event, newValue) => setRating(newValue)}
-                        size="large"
-                    />
-                </FormControl>
-                {errorMessage && <Typography variant="body2" style={{ color: 'red' }}>{errorMessage}</Typography>}
-                <FormControl fullWidth margin="normal">
-                    <TextField
-                        label="Comments (Optional)"
-                        multiline
-                        variant="outlined"
-                        value={comments}
-                        onChange={(event) => setComments(event.target.value)}
-                    />
-                </FormControl>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>
-                    <Button variant="contained" color="secondary" onClick={onRequestClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="contained" color="primary" onClick={submitRating}>
+            <div >
+                <Paper style={{margin:15, padding:20, cursor: "pointer", elevation:3}}>
+                    <Typography variant="h4" component="h2" style={{ alignContent: "center", justifyItems: "center", color: "white", background: "purple", height: 70, padding: 11 }} >
                         Rate Appointment
-                    </Button>
-                </div>
+                    </Typography>
+                    <FormControl fullWidth margin="normal">
+                        <Typography variant="h7" component="p" style={{ marginLeft: 10 }}>
+                            <strong>Doctor's Name:</strong>  {appointment.doctorName}
+                        </Typography>
+                    </FormControl>
+                    <FormControl fullWidth margin="normal" style={{ marginLeft: 10 }}>
+                        <Rating
+                            name="appointment-rating"
+                            value={rating}
+                            onChange={(event, newValue) => setRating(newValue)}
+                            size="large"
+                            precision={0.5}
+                        />
+                    </FormControl>
+                    {errorMessage && <Typography variant="body2" style={{ color: 'red' }}>{errorMessage}</Typography>}
+                    <FormControl style={{ marginBlock: 10, marginLeft: 10 }}>
+                        <TextField
+                            label="Comments (Optional)"
+                            value={comments}
+                            onChange={(event) => setComments(event.target.value)}
+                        />
+                    </FormControl>
+                    <div>
+                        <Button variant="contained" color="primary" style={{ marginBottom: 20, marginTop: 10, marginLeft: 10 }} onClick={submitRating}>
+                            Rate Appointment
+                        </Button>
+                    </div>
+                </Paper>
             </div>
         </Modal>
     );

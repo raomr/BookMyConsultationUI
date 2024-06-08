@@ -158,3 +158,19 @@ export const postRating = async(appointment,rating,comments) => {
     }
 
 }
+
+export const logoutApiCall = async () => {
+    try {
+        await axios.post("http://localhost:8080/auth/logout", {}, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        console.log('Logout success:', localStorage.getItem('token'));
+    } catch (error) {
+        throw new Error('Error while logging out');
+    }
+}

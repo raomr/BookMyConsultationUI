@@ -32,11 +32,11 @@ function UserAppointments() {
       {appointments.length > 0 && (
         <ul>
           {appointments.map((appointment) => (
-            <Paper key={appointment.appointmentId} elevation={3} style={{ padding: '16px', marginBottom: '16px' }}>
+            <Paper key={appointment.appointmentId} elevation={3} style={{ padding: '15px', marginBottom: '15px' }}>
               <ul>
                 <li>
-                  <Typography variant="body2">
-                    <b>Doctor's Name:</b> {appointment.doctorName}
+                  <Typography variant="h6" >
+                    <b>Dr: {appointment.doctorName}</b>
                   </Typography>
                 </li>
                 <li>
@@ -59,7 +59,7 @@ function UserAppointments() {
                   </li>
                 )}
               </ul>
-              <Button variant="contained" color="primary" onClick={() => handleRateAppointment(appointment)}>
+              <Button variant="contained" color="primary"  style={{marginTop:20}} onClick={() => handleRateAppointment(appointment)}>
                 Rate Appointment
               </Button>
             </Paper>
@@ -73,7 +73,7 @@ function UserAppointments() {
           appointment={selectedAppointment}
         />
       )}
-      {appointments.length === 0 && <p>No appointments found.</p>}
+      {appointments.length === 0 && <div style={{ marginBottom: 20, width: 500, marginLeft: 650}}>No Appointments found.</div>}
     </div>
   );
 }
