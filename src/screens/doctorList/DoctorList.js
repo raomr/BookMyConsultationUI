@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../../common/common.css"
 import { Card, CardContent, CardActions, Button, Typography, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { fetchDoctors, fetchSpecialities } from '../../util/fetch';
 import BookAppointment from './BookAppointment';
@@ -77,8 +78,8 @@ const DoctorList = () => {
   };
 
   return (
-    <div style={{ alignItems: 'center', justifyContent: 'center' }}>
-      <FormControl variant="outlined" style={{ minWidth: 200, marginBottom: 20, marginLeft: 650, backgroundColor: "ButtonShadow" }}>
+    <div className='doctorlist-main-container' >
+      <FormControl style={{ minWidth: 200, marginBottom: 20, marginLeft: 650, backgroundColor: "ButtonShadow" }} variant="outlined" >
         <InputLabel id="select">Select Speciality</InputLabel>
         <Select
           labelId="speciality-label"

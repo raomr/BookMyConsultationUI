@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "../common/header/Header";
 import Home from "../screens/home/Home";
-import DoctorList from "./doctorList/DoctorList";
 
 const Controller = () => {
     //const baseUrl = "/api/v1/";

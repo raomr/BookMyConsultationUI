@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import '../../common/common.css'
 import Modal from 'react-modal';
 import { Typography } from '@mui/material';
 import { fetchDoctorDetails } from '../../util/fetch';
 import Paper from '@mui/material/Paper';
 import Rating from '@mui/material/Rating';
+
 
 const DoctorDetails = ({ isDoctorModalOpen, onRequestClose, doctor }) => {
     const [doctorDetails, setDoctorDetails] = useState(null);
@@ -24,17 +26,13 @@ const DoctorDetails = ({ isDoctorModalOpen, onRequestClose, doctor }) => {
 
     return (
         <>
-            <Modal
-                isOpen={isDoctorModalOpen} onRequestClose={onRequestClose}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                className="doctorDetailsModal" // Use classes for custom styling (optional)
-            >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, borderRadius: 10, backgroundColor: 'white', width: 700, marginLeft: 400, marginTop: 100 }}>
-                    <Paper style={{ margin: 15, padding: 20, elevation: 3, marginTop: 20, marginBotton: 20, cursor: "pointer" }}>
+            <Modal isOpen={isDoctorModalOpen} onRequestClose={onRequestClose} className="doctor-details-modal" >
+                <div className='doctor-details-main-container'>
+                    <Paper className='doctor-details-paper' elevation={3}>
 
                         {doctorDetails && (
                             <div className="doctorDetailsCard">
-                                <Typography variant="h5" component="h2" style={{ background: "purple", height: 70, padding: 11, color: "white", alignContent: "center" }} >
+                                <Typography className='doctor-details-purple-header' variant="h5" component="h2"  >
                                     Doctor Details
                                 </Typography>
                                 <Typography variant="h6" padding="3px">

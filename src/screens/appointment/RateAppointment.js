@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../common/common.css'
 import { Modal, Button, FormControl, TextField, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { postRating } from '../../util/fetch';
@@ -22,10 +23,10 @@ function RateAppointment({ isOpen, onRequestClose, appointment }) {
     };
 
     return (
-        <Modal open={isOpen} onClose={onRequestClose} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Modal className='rate-appointment-modal' open={isOpen} onClose={onRequestClose}>
             <div >
-                <Paper style={{margin:15, padding:20, cursor: "pointer", elevation:3}}>
-                    <Typography variant="h4" component="h2" style={{ alignContent: "center", justifyItems: "center", color: "white", background: "purple", height: 70, padding: 11 }} >
+                <Paper className='rate-appointment-paper' elevation={3}>
+                    <Typography className='rate-appointment-purple-header' variant="h4" component="h2">
                         Rate Appointment
                     </Typography>
                     <FormControl fullWidth margin="normal">

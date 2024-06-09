@@ -23,7 +23,7 @@ export default function Home() {
           </TabList>
         </Box>
         <TabPanel value="1"  ><DoctorList/></TabPanel>
-        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? <UserAppointments/>:<div style={{ marginBottom: 20, width: 500, marginLeft: 600}}>Log In to See Appointments</div>
+        <TabPanel value="2">{ localStorage.getItem('isLoggedIn')? <UserAppointments/>:<div style={{ marginBottom: 20, width: 500, marginLeft: 700}}>Log In to See Appointments</div>
 }</TabPanel>
       </TabContext>
     </Box>

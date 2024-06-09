@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../common/common.css'
 import { FormControl, InputLabel, Input, Button } from '@material-ui/core';
 import { loginApiCall } from '../../util/fetch';
 
@@ -10,7 +11,7 @@ const Login = ({ onLoginSuccess }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErrorMessage(''); // Clear any previous error message
+        setErrorMessage(''); 
 
         if (!email || !password) {
             setErrorMessage('Please fill out all required fields');
@@ -28,13 +29,12 @@ const Login = ({ onLoginSuccess }) => {
             onLoginSuccess();
         } catch (error) {
             console.error('Login error:', error);
-            // Handle login errors (e.g., display error message)
             setErrorMessage('Invalid email or password');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} autoComplete="off" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <form className='login-register-form' onSubmit={handleSubmit} autoComplete="off" >
             <FormControl margin="normal" required error={emailError}>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
                 <Input

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import '../../common/common.css'
 import { FormControl, InputLabel, Input, Button } from '@material-ui/core';
 import { loginApiCall, registerApiCall } from '../../util/fetch';
+
 const Register = ({ onRegisterSuccess }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -15,7 +17,7 @@ const Register = ({ onRegisterSuccess }) => {
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
-    setErrorMessage(''); // Clear any previous error message
+    setErrorMessage(''); 
 
 
     const validEmail = /\S+@\S+\.\S+/.test(email);
@@ -24,7 +26,7 @@ const Register = ({ onRegisterSuccess }) => {
       return;
     }
 
-    const validMobile = /^\d{10}$/.test(mobile); // Check for 10 digits
+    const validMobile = /^\d{10}$/.test(mobile); 
     if (!validMobile) {
       setmobileError(true);
       return;
@@ -41,7 +43,7 @@ const Register = ({ onRegisterSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleRegisterSubmit} autoComplete="off" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <form className='login-register-form' onSubmit={handleRegisterSubmit} autoComplete="off">
       <FormControl margin="normal" required >
         <InputLabel htmlFor="firstName">First Name</InputLabel>
         <Input

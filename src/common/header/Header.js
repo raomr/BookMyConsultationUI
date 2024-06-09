@@ -10,7 +10,6 @@ import Login from '../../screens/login/Login';
 import logo from '../../assets/logo.jpeg';
 import Register from '../../screens/register/Register';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Typography } from '@mui/material';
 import { logoutApiCall } from '../../util/fetch';
 
@@ -42,7 +41,7 @@ const Header = () => {
         navigate('/');
     };
 
-    const handleAuthModalClose = () =>{
+    const handleAuthModalClose = () => {
         setIsModalOpen(false);
         navigate('/');
     }
@@ -50,14 +49,10 @@ const Header = () => {
     return (
         <>
             <div className="header">
-
                 <div className="title" style={{ display: "flex", alignItems: "flex-start" }}>
                     <img className="logo" src={logo} />
                     <h2 className="doctor-finder">Doctor Finder</h2>
                 </div>
-
-
-
                 {localStorage.getItem('isLoggedIn') ? (
                     <Button variant="contained" color="secondary" style={{ marginRight: 10 }} onClick={handleLogout}>
                         Logout
@@ -69,9 +64,9 @@ const Header = () => {
                 )}
             </div>
             <Modal isOpen={isModalOpen} contentLabel="Login/Register" onRequestClose={handleAuthModalClose} >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', marginTop: 100}}>
+                <div className='login-register-modal'>
                     <Card>
-                        <Typography variant="h4" component="h2" style={{ background: "purple", height: 70, alignContent:"center", color:"white", justifyContent: "center" }} >
+                        <Typography className='authentication-header' variant="h4" component="h2"  >
                             Authentication
                         </Typography>
                         <CardContent>
@@ -87,11 +82,7 @@ const Header = () => {
                             )}
                         </CardContent>
                     </Card>
-
                 </div>
-
-
-
             </Modal>
         </>
     );
